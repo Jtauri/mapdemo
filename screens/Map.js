@@ -1,7 +1,6 @@
 import { StyleSheet, Platform } from 'react-native'
 import React, { useState } from 'react'
 import MapView, { Marker } from 'react-native-maps'
-import Constants from 'expo-constants'
 
 export default function Map(props) {
 
@@ -9,7 +8,7 @@ export default function Map(props) {
     
     const showMArker = (e) => {
         const coords = e.nativeEvent.coordinate
-        setMarker([...markers,coords])
+        setMarker([...markers,coords]) /*spread operatorilla asetetaan aikaisemmat koordinaatit ja uusi koordinaatti taulukkoon*/
     }
 
     return (
@@ -19,9 +18,9 @@ export default function Map(props) {
             mapType='satellite'
             onLongPress={showMArker}
         >
-        {markers.map((marker, index) => (
+        {markers.map((marker, indeksi) => ( /*"marker" on tämänhetkinen koordinaatti ja "indeksi" on sen indeksinumero taulukossa*/
             <Marker
-            key={index}
+            key={indeksi}
             coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
             />
         ))
@@ -33,13 +32,6 @@ export default function Map(props) {
 
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#000000',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: Platform.OS === 'android' ? Constants.statusBarHeight : 0,
-    },
     map: {
         height: '100%',
         width: '100%',

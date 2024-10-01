@@ -34,16 +34,24 @@ export default function App() {
   
 
   const getUserPosition = async () => {
+    setIcon(icons.location_searching)
     let { status } = await Location.requestForegroundPermissionsAsync()
 
     try {
         if (status !== 'granted') {
             console.log('Permission to access location was denied')
+            /*tänne en omalla puhelimella pääse vaan tulee vain errorit
+              LOG  [Error: Location request failed due to unsatisfied device settings]
+              LOG  [Error: Current location is unavailable. Make sure that location services are enabled]
+            */
+            setIcon(icons.location_not_known)
             return
         }
         const position = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High })
         setLocation({ ...location, "latitude": position.coords.latitude, "longitude": position.coords.longitude })
+        setIcon(icons.location_found)
     } catch (error) {
+        setIcon(icons.location_not_known)
         console.log(error)
     }
 }

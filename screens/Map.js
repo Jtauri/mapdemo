@@ -1,16 +1,31 @@
 import { StyleSheet, Platform } from 'react-native'
-import React from 'react'
-import MapView from 'react-native-maps'
+import React, { useState } from 'react'
+import MapView, { Marker } from 'react-native-maps'
 import Constants from 'expo-constants'
 
 export default function Map(props) {
+
+    const [marker, setMarker] = useState(null)
+    
+    const showMArker = (e) => {
+        const coords = e.nativeEvent.coordinate
+        setMarker(coords)
+    }
 
     return (
         <MapView
             style={styles.map}
             region={props.location}
-
-        />
+            mapType='satellite'
+            onLongPress={showMArker}
+        >
+        {marker &&
+            <Marker
+            title='My Marker'
+            coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
+            />
+        }
+        </MapView>
     )
 }
 
@@ -28,4 +43,4 @@ const styles = StyleSheet.create({
         height: '100%',
         width: '100%',
     },
-});
+})

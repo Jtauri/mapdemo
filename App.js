@@ -4,7 +4,7 @@ import Map from './screens/Map'
 import MainAppBar from './components/MainAppBar'
 import * as Location from 'expo-location'
 import { PaperProvider } from 'react-native-paper'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native'
 
 const settings = {
@@ -27,6 +27,11 @@ export default function App() {
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   })
+
+  useEffect(() => {
+    getUserPosition()
+  }, [])
+  
 
   const getUserPosition = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync()

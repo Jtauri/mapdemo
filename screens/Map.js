@@ -5,11 +5,11 @@ import Constants from 'expo-constants'
 
 export default function Map(props) {
 
-    const [marker, setMarker] = useState(null)
+    const [markers, setMarker] = useState([])
     
     const showMArker = (e) => {
         const coords = e.nativeEvent.coordinate
-        setMarker(coords)
+        setMarker([...markers,coords])
     }
 
     return (
@@ -19,11 +19,12 @@ export default function Map(props) {
             mapType='satellite'
             onLongPress={showMArker}
         >
-        {marker &&
+        {markers.map((marker, index) => (
             <Marker
-            title='My Marker'
+            key={index}
             coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
             />
+        ))
         }
         </MapView>
     )
